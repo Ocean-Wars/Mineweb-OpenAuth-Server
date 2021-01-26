@@ -44,7 +44,19 @@ function auth($username, $password) {
             $guid = getGUID();
             // Generating a new UUID
             $uuid = md5(uniqid(rand(), true));
-            Core\Queries::execute('INSERT INTO openauth_users (guid, uuid, username, password) VALUES (:guid, :uuid, :username, :password)', ['username' => $username, 'uuid' => $uuid, "password" => $password, 'guid' => $guid]);
+
+            $accessToken = md5(uniqid(rand(), true));
+            $clientToken = getClientToken();
+
+            Core\Queries::execute(
+                'INSERT INTO openauth_users (guid, uuid, username, password, accessToken, clientToken) VALUES (:guid, :uuid, :username, :password, :accessToken, :clientToken)', [
+                    'username' => $username,
+                    'uuid' => $uuid,
+                    "password" => $password,
+                    'guid' => $guid,
+                    'accessToken' => $accessToken,
+                    'clientToken' => $clientToken]
+            );
         } else if ($mineweb_req->password != $req->password) {
             // we verify if we have to update the password or not (if he has changed since last login or not)
             Core\Queries::execute('UPDATE aupenauth_users SET password=:password WHERE username=:username',
