@@ -74,7 +74,7 @@ if(isset($_POST))
 				$req->execute();
 		    }
 
-		    $connections_exists = $pdo->prepare("SHOW TABLES LIKE 'openauth_connections");
+		    $connections_exists = $pdo->prepare("SHOW TABLES LIKE 'openauth_connections'");
 		    if ($connections_exists->rowCount() == 0) {
 
 		        // prepare the table that will store connections
