@@ -41,7 +41,7 @@ function auth($username, $password) {
 
         // we check if the password is valid or not
         if ($password != $mineweb_req->password)
-            return true;
+            return false;
 
         // Sending the request to the database
         $req = Core\Queries::execute("SELECT * FROM openauth_users WHERE username = :username", ['username' => $username]);
