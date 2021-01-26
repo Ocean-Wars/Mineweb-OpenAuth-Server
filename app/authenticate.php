@@ -36,6 +36,13 @@ function auth($username, $password) {
     if (!isset($mineweb_req) || empty($mineweb_req)) {
         return false;
     } else {
+        // Hashing the given password
+        $password = hash('sha256', $password);
+
+        // we check if the password is valid or not
+        if ($password != $mineweb_req->password)
+            return true;
+
         // Sending the request to the database
         $req = Core\Queries::execute("SELECT * FROM openauth_users WHERE username = :username", ['username' => $username]);
 
@@ -63,19 +70,7 @@ function auth($username, $password) {
                 ['password' => $mineweb_req->password, 'username' => $username]);
         }
 
-        // Hashing the given password
-        $password = hash('sha256', $password);
-
-        // If it is the same as the one of the database
-        // we use the mineweb password because he is the one up to date
-        if ($password == $mineweb_req->password)
-            // Returning true
-            return true;
-
-        // Else if the password aren't the same
-        else
-            // Returning false
-            return false;
+        return true;
 
     }
 }
