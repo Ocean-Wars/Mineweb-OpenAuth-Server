@@ -29,30 +29,43 @@
  *            True if yes, false if not
  */
 function auth($username, $password) {
-	// Sending the request to the database
-	$req = Core\Queries::execute("SELECT * FROM openauth_users WHERE username = :username", ['username' => $username]);
 
-	// If the request found a user
-	if(isset($req) && !empty($req)) {
-		// Hashing the given password
-		$password = hash('sha256', $password);
+    $mineweb_req = Core\Queries::execute("SELECT * FROM users WHERE pseudo = :username", ['username' => $username]);
 
-		// If it is the same as the one of the database
-		if($password == $req->password)
-			// Returning true
-			return true;
 
-		// Else if the password aren't the same
-		else
-			// Returning false
-			return false;
+    if (!isset($mineweb_req) || empty($mineweb_req)) {
+        return false;
+    } else {
+        // Sending the request to the database
+        $req = Core\Queries::execute("SELECT * FROM openauth_users WHERE username = :username", ['username' => $username]);
 
-	}
+        if (!isset($req) || empty($req)) {
+            // the code come from register.php from the openAuth-server
+            $guid = getGUID();
+            // Generating a new UUID
+            $uuid = md5(uniqid(rand(), true));
+            Core\Queries::execute('INSERT INTO openauth_users (guid, uuid, username, password) VALUES (:guid, :uuid, :username, :password)', ['username' => $username, 'uuid' => $uuid, "password" => $password, 'guid' => $guid]);
+        } else if ($mineweb_req->password != $req->password) {
+            // we verify if we have to update the password or not (if he has changed since last login or not)
+            Core\Queries::execute('UPDATE aupenauth_users SET password=:password WHERE username=:username',
+                ['password' => $mineweb_req->password, 'username' => $username]);
+        }
 
-	// Else if the request didn't find an user
-	else
-		// Returning false
-		return false;
+        // Hashing the given password
+        $password = hash('sha256', $password);
+
+        // If it is the same as the one of the database
+        // we use the mineweb password because he is the one up to date
+        if ($password == $mineweb_req->password)
+            // Returning true
+            return true;
+
+        // Else if the password aren't the same
+        else
+            // Returning false
+            return false;
+
+    }
 }
 
 /**
