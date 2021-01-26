@@ -71,7 +71,6 @@ function auth($username, $password) {
         }
 
         return true;
-
     }
 }
 
