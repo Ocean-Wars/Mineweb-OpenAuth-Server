@@ -129,8 +129,6 @@ if(file_exists('config.php'))
 
         // The join protocol according to: https://wiki.vg/Protocol_Encryption#Authentication
         elseif ($request['args'][0] == "join" && empty($request['args'][1])) {
-            header('Content-Type: application/json');
-
             require 'app/join.php';
         }
 

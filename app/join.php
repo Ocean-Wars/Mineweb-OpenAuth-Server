@@ -36,20 +36,33 @@ if($request['method'] == "POST")
                         'time' => microtime()
                     ]);
 
-                } else
+                    header("HTTP/1.1 204 NO CONTENT");
+                    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+
+                } else {
+                    header('Content-Type: application/json');
                     echo error(3);
+                }
             } else {
+                header('Content-Type: application/json');
                 // Printing the fourth error
                 echo error(4);
             }
-        } else
+        } else {
+            header('Content-Type: application/json');
             // Printing the fourth error
             echo error(4);
+        }
     }
-    else
+    else {
+
+        header('Content-Type: application/json');
         // Printing the sixth error
         echo error(6);
+    }
 // Else if the request method isn't POST
-else
+else {
+    header('Content-Type: application/json');
     // Printing the first error
     echo error(1);
+}
