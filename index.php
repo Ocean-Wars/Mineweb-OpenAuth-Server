@@ -42,7 +42,7 @@ if(file_exists('config.php'))
 			$infos = array(
 				'Status'					=>	'OK',
 				'Runtime-Mode'				=>	'productionMode',
-				'Application-Author' 		=>	'Litarvan & Vavaballz',
+				'Application-Author' 		=>	'Litarvan, Vavaballz, Lockface77',
 				'Application-Description'	=>	'OpenAuth Server.',
 				'Specification-Version'		=>	'1.0.0-SNAPSHOT',
 				'Application-Name'			=>	'openauth.server',
