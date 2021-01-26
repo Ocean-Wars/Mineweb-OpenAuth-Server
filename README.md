@@ -1,4 +1,4 @@
-![OpenAuth Logo](http://image.noelshack.com/fichiers/2015/20/1431453946-banierreoauth.png)
+![OpenAuth Logo](http://litarvan.github.io/OpenAuth-Server/logo.png)
 
 # Notice
 
