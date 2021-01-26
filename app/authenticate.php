@@ -52,7 +52,7 @@ function auth($username, $password) {
                 'INSERT INTO openauth_users (guid, uuid, username, password, accessToken, clientToken) VALUES (:guid, :uuid, :username, :password, :accessToken, :clientToken)', [
                     'username' => $username,
                     'uuid' => $uuid,
-                    "password" => $password,
+                    'password' => $password,
                     'guid' => $guid,
                     'accessToken' => $accessToken,
                     'clientToken' => $clientToken]
