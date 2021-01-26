@@ -27,113 +27,137 @@ require 'core/functions.php';
 
 // Creating an array with all the request informations
 $args = trim(str_replace(dirname($_SERVER['SCRIPT_NAME']), "", $_SERVER['REQUEST_URI']), "/");
+
+// we remove query for args
+if (!empty(args))
+    $args = explode("?", $args)[0];
 $request['args'] = (!empty($args)) ? explode("/", $args) : false;
+
+// we add the query
+$request['query'] = array();
+parse_str($_SERVER['QUERY_STRING'], $request['query']);
 $request['method'] = $_SERVER['REQUEST_METHOD'];
 $request['content-type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : null;
 
 
+
+
 // If the config file already exists
 if(file_exists('config.php'))
-	// If the install page doesn't exist
-	if(!file_exists('install.php'))
-		// If we are in the home page (no arguments given)
-		if(empty($request['args'][0])) {
-			// Creating an array with the app informations
-			$infos = array(
-				'Status'					=>	'OK',
-				'Runtime-Mode'				=>	'productionMode',
-				'Application-Author' 		=>	'Litarvan, Vavaballz, Lockface77',
-				'Application-Description'	=>	'OpenAuth Server.',
-				'Specification-Version'		=>	'1.0.0-SNAPSHOT',
-				'Application-Name'			=>	'openauth.server',
-				'Implementation-Version' 	=>	'1.0.0_build01',
-				'Application-Owner' 		=>	Core\Config::get('authinfos.owner'),
-			);
+    // If the install page doesn't exist
+    if(!file_exists('install.php'))
+        // If we are in the home page (no arguments given)
+        if(empty($request['args'][0])) {
+            // Creating an array with the app informations
+            $infos = array(
+                'Status'					=>	'OK',
+                'Runtime-Mode'				=>	'productionMode',
+                'Application-Author' 		=>	'Litarvan & Vavaballz',
+                'Application-Description'	=>	'OpenAuth Server.',
+                'Specification-Version'		=>	'1.0.0-SNAPSHOT',
+                'Application-Name'			=>	'openauth.server',
+                'Implementation-Version' 	=>	'1.0.0_build01',
+                'Application-Owner' 		=>	Core\Config::get('authinfos.owner'),
+                'args-1' => $request['args'][1]
+            );
 
-			// And printing it as a JSON
-			echo json_encode($infos);
-		}
+            // And printing it as a JSON
+            echo json_encode($infos);
+        }
 
-		// If the url is authenticate and there is no more arguments
-		elseif($request['args'][0] == "authenticate" && empty($request['args'][1])) {
-			// Setting the content-type to JSON
-			header('Content-Type: application/json');
+        // If the url is authenticate and there is no more arguments
+        elseif($request['args'][0] == "authenticate" && empty($request['args'][1])) {
+            // Setting the content-type to JSON
+            header('Content-Type: application/json');
 
-			// Printing the authenticate page
-			require 'app/authenticate.php';
-		}
+            // Printing the authenticate page
+            require 'app/authenticate.php';
+        }
 
-		// If the url is refresh and there is no more arguments
-		elseif($request['args'][0] == "refresh" && empty($request['args'][1])) {
-			// Setting the content-type to JSON
-			header('Content-Type: application/json');
+        // If the url is refresh and there is no more arguments
+        elseif($request['args'][0] == "refresh" && empty($request['args'][1])) {
+            // Setting the content-type to JSON
+            header('Content-Type: application/json');
 
-			// Printing the refresh page
-			require 'app/refresh.php';
-		}
+            // Printing the refresh page
+            require 'app/refresh.php';
+        }
 
-		// If the url is signout and there is no more arguments
-		elseif($request['args'][0] == "signout" && empty($request['args'][1])) {
-			// Setting the content-type to JSON
-			header('Content-Type: application/json');
+        // If the url is signout and there is no more arguments
+        elseif($request['args'][0] == "signout" && empty($request['args'][1])) {
+            // Setting the content-type to JSON
+            header('Content-Type: application/json');
 
-			// Printing the logout page
-			require 'app/logout.php';
-		}
+            // Printing the logout page
+            require 'app/logout.php';
+        }
 
-		// If the url is validate and there is no more arguments
-		elseif($request['args'][0] == "validate" && empty($request['args'][1])) {
-			// Setting the content-type to JSON
-			header('Content-Type: application/json');
+        // If the url is validate and there is no more arguments
+        elseif($request['args'][0] == "validate" && empty($request['args'][1])) {
+            // Setting the content-type to JSON
+            header('Content-Type: application/json');
 
-			// Printing the logout page
-			require 'app/validate.php';
-		}
+            // Printing the logout page
+            require 'app/validate.php';
+        }
 
-		// If the url is invalidate and there is no more arguments
-		elseif($request['args'][0] == "invalidate" && empty($request['args'][1])) {
-			// Setting the content-type to JSON
-			header('Content-Type: application/json');
+        // If the url is invalidate and there is no more arguments
+        elseif($request['args'][0] == "invalidate" && empty($request['args'][1])) {
+            // Setting the content-type to JSON
+            header('Content-Type: application/json');
 
-			// Printing the logout page
-			require 'app/invalidate.php';
-		}
+            // Printing the logout page
+            require 'app/invalidate.php';
+        }
 
-		// If the url is register and there is no more arguments
-		elseif($request['args'][0] == "register" && empty($request['args'][1]))
-			// If the register page is activated in the config
-			if(Core\Config::get('activeRegisterPage'))
-				// Printing the register page
-				require 'app/register.php';
+        // If the url is register and there is no more arguments
+        elseif($request['args'][0] == "register" && empty($request['args'][1])) {
+            // If the register page is activated in the config
+            if (Core\Config::get('activeRegisterPage'))
+                // Printing the register page
+                require 'app/register.php';
 
-			// Else if the register page is disabled
-			else {
-				// Setting the header to 404 error
-				header("HTTP/1.0 404 Not Found");
+            // Else if the register page is disabled
+            else {
+                // Setting the header to 404 error
+                header("HTTP/1.0 404 Not Found");
 
-				// Printing the first error
-				echo error(1);
-			}
+                // Printing the first error
+                echo error(1);
+            }
+        }
 
-		// Else if the request is just unknown
-		else {
-			// Setting the header to 404 error
-			header("HTTP/1.0 404 Not Found");
+        // The join protocol according to: https://wiki.vg/Protocol_Encryption#Authentication
+        elseif ($request['args'][0] == "join" && empty($request['args'][1])) {
+            header('Content-Type: application/json');
 
-			// Printing the first error
-			echo error(1);
-		}
+            require 'app/join.php';
+        }
 
-	// Else if the install page exists
-	else {
-		// Deleting it
-		unlink("install.php");
+        elseif ($request['args'][0] == "hasJoined" && empty($request['args'][1])) {
+            header('Content-Type: application/json');
 
-		// And redirecting to the index
-		header("Location: .");
-	}
+            require 'app/hasJoined.php';
+        }
+        // Else if the request is just unknown
+        else {
+            // Setting the header to 404 error
+            header("HTTP/1.0 404 Not Found");
+
+            // Printing the first error
+            echo error(1);
+        }
+
+    // Else if the install page exists
+    else {
+        // Deleting it
+        unlink("install.php");
+
+        // And redirecting to the index
+        header("Location: .");
+    }
 
 // Else if the config doesn't exists
 else
-	// Printing the install page
-	require 'install.php';
+    // Printing the install page
+    require 'install.php';
