@@ -53,6 +53,8 @@ if($request['method'] == "GET") {
 
                         // we verify that the ip is correct
                         if ($ip == $connection_query->ip) {
+                            // allow us to delete the player from the database
+                            Core\Queries::execute('DELETE FROM openauth_connections WHERE username=:username', ['username' => $username]);
                             send_response_with_skin($username);
                         }
                     }
