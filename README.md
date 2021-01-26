@@ -16,34 +16,15 @@ The aim of this repository is to make openauth compatible with [Mineweb](https:/
 When you try to log-in using a password, it search inside of the mineweb database for the user password hash instead of his own database.
 
 
-This also add the session from mojang: https://wiki.vg/Protocol_Encryption#Authentication
+This also add the sessions like if it was a mojang server: https://wiki.vg/Protocol_Encryption#Authentication
 
 # How to use it
 
-modify the file config_base.php:
+* Clone this repo inside /var/www/authserver (normally you already have a website for mineweb, you should clone this near it).
+* Change your apache settings so there are two websites (mineweb + this auth server).
+* Go to this website, it will ask you for you database credentials, put exactly the same as for mineweb.
 
-```php
-return [
-	
-	// The auth informations
-	'authinfos' => [
-		// Name of the owner of this OpenAuth server
-		'owner' => '',
-	],
+Need help? Here is my discord: Lockface77#8305
 
-	// The database informations
-	'database' => [
-		'database' => '',
-		'host' => '',
-		'username' => '',
-		'password' => ''
-	],
-	
-	// If the register page is enabled
-	'activeRegisterPage' => false,
-];
-```
-
-For the database credentials, use the same as the one you used for your mineweb server.
 
 You **must** change your mineweb password encryption to sha256 **without salt**.
