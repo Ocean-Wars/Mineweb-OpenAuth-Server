@@ -151,3 +151,18 @@ function getClientToken() {
 		mt_rand( 0, 0xffff )
 	);
 }
+
+/**
+ * This function allow us to get the real ip address of a client
+ * Taken from: https://itman.in/en/how-to-get-client-ip-address-in-php/
+ *
+ * @return String The client real ip address
+ */
+function getIp() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+        return $_SERVER['HTTP_CLIENT_IP'];
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else
+        return $_SERVER['REMOTE_ADDR'];
+}
