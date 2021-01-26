@@ -33,7 +33,7 @@ if($request['method'] == "POST")
                         'username' => $username,
                         'serverid' => $serverId,
                         'ip' => $ip,
-                        'time' => getTimeInt()
+                        'time' => getTimeFloat()
                     ]);
 
                     header("HTTP/1.1 204 NO CONTENT");

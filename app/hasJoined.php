@@ -42,7 +42,7 @@ if($request['method'] == "GET") {
             $connection_query = Core\Queries::execute('SELECT * FROM openauth_connections WHERE username=:username', ['username' => $username]);
             if (!empty($connection_query)) {
                 if ($connection_query->serverId == $serverId) {
-                    $curr_time = getTimeInt();
+                    $curr_time = getTimeFloat();
                     $connection_time = $connection_query->time;
                     // if less than 2 seconds
                     if (curr_time - connection_time < 2000) {

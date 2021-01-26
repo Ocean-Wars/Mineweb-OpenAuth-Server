@@ -169,8 +169,9 @@ function getIp() {
 
 /**
  * This method allow us to get the current time in milliseconds
- * @return int The current milliseconds
+ * @return float The current milliseconds
  */
-function getTimeInt() {
+function getTimeFloat() {
+    // sprintf is required to have bigger than int limit number: https://stackoverflow.com/questions/990406/php-intval-equivalent-for-numbers-2147483647
     return round(microtime(true) * 1000);
 }
