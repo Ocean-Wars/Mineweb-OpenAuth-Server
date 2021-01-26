@@ -43,9 +43,10 @@ if($request['method'] == "GET") {
             if (!empty($connection_query)) {
                 if ($connection_query->serverId == $serverId) {
                     $curr_time = getTimeFloat();
-                    $connection_time = $connection_query->time;
+                    // for some reasons the returned query is a string not a double
+                    $connection_time = doubleval($connection_query->time);
                     // if less than 2 seconds
-                    if (curr_time - connection_time < 2000) {
+                    if ($curr_time - $connection_time < 2000) {
                         // ip is facultative, depending on if prevent proxy option is true or not
                         if (is_null($ip)) {
                             $ip = $connection_query->ip;
