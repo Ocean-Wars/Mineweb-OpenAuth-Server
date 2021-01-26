@@ -83,8 +83,9 @@ if(isset($_POST))
 		                `id` int(11) NOT NULL AUTO_INCREMENT,
 		                `username` varchar(255) NOT NULL,
 		                `serverId` varchar(255) NOT NULL,
-		                `ip` varchar(255) NOT NULL,
-		                `time` int(11) UNSIGNED NOT NULL
+		                `ip` varchar(50) NOT NULL,
+		                `time` int(11) UNSIGNED NOT NULL,
+		                PRIMARY KEY (`id`)
 		            );
 		        ');
 
