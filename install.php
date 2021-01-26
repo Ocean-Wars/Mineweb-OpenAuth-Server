@@ -70,7 +70,7 @@ if(isset($_POST))
 		                `username` varchar(255) NOT NULL,
 		                `serverId` varchar(255) NOT NULL,
 		                `ip` varchar(50) NOT NULL,
-		                `time` int(11) UNSIGNED NOT NULL,
+		                `time` bigint(11) UNSIGNED NOT NULL,
 		                PRIMARY KEY (`id`)
 		            ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
