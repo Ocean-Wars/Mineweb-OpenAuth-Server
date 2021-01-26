@@ -136,11 +136,11 @@ if(isset($_POST))
             <h1>Configuration</h1>
             <br />
             <p class="marged-paragraph">
-                Bienvenue dans la configuration de votre serveur OpenAuth.
+                Bienvenue dans la configuration de votre serveur Mineweb-OpenAuth.
                 <br/>
                 Nous allons maintenant configurer les identifiants de connexion à votre base Mysql.
                 <br />
-                Alors, qu'attendez vous ? !
+                Vous devez mettres vos identifiants de base de donnée MineWeb.
 
                 <br /><br /><br />
                 
