@@ -74,6 +74,23 @@ if(isset($_POST))
 				$req->execute();
 		    }
 
+		    $connections_exists = $pdo->prepare("SHOW TABLES LIKE 'openauth_connections");
+		    if ($connections_exists->rowCount() == 0) {
+
+		        // prepare the table that will store connections
+		        $create_connections_req = $pdo->prepare('
+		            CREATE TABLE IF NOT EXISTS `openauth_connections` (
+		                `id` int(11) NOT NULL AUTO_INCREMENT,
+		                `username` varchar(255) NOT NULL,
+		                `serverId` varchar(255) NOT NULL,
+		                `ip` varchar(255) NOT NULL,
+		                `time` int(11) UNSIGNED NOT NULL
+		            );
+		        ');
+
+		        $create_connections_req->execute();
+            }
+
 		    // Getting the base config file
 			$config_file = file('config_base.php');
 
