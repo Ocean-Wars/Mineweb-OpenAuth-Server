@@ -57,8 +57,7 @@ if(file_exists('config.php'))
                 'Specification-Version'		=>	'1.0.0-SNAPSHOT',
                 'Application-Name'			=>	'openauth.server',
                 'Implementation-Version' 	=>	'1.0.0_build01',
-                'Application-Owner' 		=>	Core\Config::get('authinfos.owner'),
-                'args-1' => $request['args'][1]
+                'Application-Owner' 		=>	Core\Config::get('authinfos.owner')
             );
 
             // And printing it as a JSON

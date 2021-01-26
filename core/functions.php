@@ -166,3 +166,11 @@ function getIp() {
     else
         return $_SERVER['REMOTE_ADDR'];
 }
+
+/**
+ * This method allow us to get the current time in milliseconds
+ * @return int The current milliseconds
+ */
+function getTimeInt() {
+    return round(microtime(true) * 1000);
+}

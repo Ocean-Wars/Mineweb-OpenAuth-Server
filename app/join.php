@@ -29,11 +29,11 @@ if($request['method'] == "POST")
 
                     $ip = getIp();
                     // Say that the user has connected at given time:
-                    Core\Queries::execute('INSERT INTO openauth_connections (username, serverId, ip, time) VALUE (:username, :serverid, :ip, :time)', [
+                    Core\Queries::execute('INSERT INTO openauth_connections (username, serverId, ip, time) VALUES (:username, :serverid, :ip, :time)', [
                         'username' => $username,
                         'serverid' => $serverId,
                         'ip' => $ip,
-                        'time' => microtime()
+                        'time' => getTimeInt()
                     ]);
 
                     header("HTTP/1.1 204 NO CONTENT");
