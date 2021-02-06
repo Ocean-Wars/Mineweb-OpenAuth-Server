@@ -37,7 +37,8 @@ if($request['method'] == "POST")
                     ]);
 
                     header("HTTP/1.1 204 NO CONTENT");
-                    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                    // header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+                    // remove the above lign otherwise minecraft does not recognise the result
 
                 } else {
                     header('Content-Type: application/json');
