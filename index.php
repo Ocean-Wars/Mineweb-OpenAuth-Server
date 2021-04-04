@@ -29,7 +29,7 @@ require 'core/functions.php';
 $args = trim(str_replace(dirname($_SERVER['SCRIPT_NAME']), "", $_SERVER['REQUEST_URI']), "/");
 
 // we remove query for args
-if (!empty(args))
+if (!empty($args))
     $args = explode("?", $args)[0];
 $request['args'] = (!empty($args)) ? explode("/", $args) : false;
 
