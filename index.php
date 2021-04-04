@@ -48,7 +48,6 @@ if(file_exists('config.php')) {
     if (!file_exists('install.php')) {
 
         // TO REMOVE!!!
-        // error_log("LINK: " . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
         // file_put_contents("C:\Users\Admin\Documents\minecraft\OceanWars\authenticationlogs\logs.txt",
         //    "LINK: " . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]\n",
         //    FILE_APPEND);

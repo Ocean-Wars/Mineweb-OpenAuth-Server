@@ -1,6 +1,25 @@
 <?php
 
 /**
+ * This method allow us to get the mojang skin for the player.
+ * @param $username String the username of the player
+ */
+function getMojangResult($username) {
+    $url = "https://api.mojang.com/users/profiles/minecraft/" . urlencode($username);
+    $content = file_get_contents($url);
+
+    $json = json_decode($content);
+
+    if ($json == null)
+        return null;
+    else {
+        $id = $json->id;
+        $skin_url = "https://sessionserver.mojang.com/session/minecraft/profile/" . $id . "?unsigned=false";
+        return file_get_contents($skin_url);
+    }
+}
+
+/**
  * This method allow us to send the answer to the server with the skin of the user
  * @param $username String the username of the player that joined
  */
@@ -9,21 +28,27 @@ function send_response_with_skin($username) {
     if (!empty($player_infos)) {
         $uuid = $player_infos->UUID;
 
-        // TODO: get the skin
+        // TODO: get the skin from mineweb
+        $mojang_result = getMojangResult($username);
 
-        $result = [
-            'id' => $uuid,
-            'name' => $username,
-            'properties' => [
-                [
-                    'name' => 'textures',
-                    'value' => 'ewogICJ0aW1lc3RhbXAiIDogMTYxMTY3ODI3OTc4NiwKICAicHJvZmlsZUlkIiA6ICI0NTY2ZTY5ZmM5MDc0OGVlOGQ3MWQ3YmE1YWEwMGQyMCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGlua29mZGVhdGgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRkMWUwOGIwYmI3ZTlmNTkwYWYyNzc1ODEyNWJiZWQxNzc4YWM2Y2VmNzI5YWVkZmNiOTYxM2U5OTExYWU3NSIKICAgIH0sCiAgICAiQ0FQRSIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjYzA4ODQwNzAwNDQ3MzIyZDk1M2EwMmI5NjVmMWQ2NWExM2E2MDNiZjY0YjE3YzgwM2MyMTQ0NmZlMTYzNSIKICAgIH0KICB9Cn0',
-                    'signature' => 'GEQvky+a56n4xkvK8xKXsMXayNGe9ZgzvGpWOdieGLn4w8WowZwNC8AhAF71mqsKnpazG4zyDhFAfPAq8CnLahwFKbDNds8BzmvYJ1uThWweaYq34ucgLAjwrVmoM4hi5GLFG5OY2Ne1uZvXdpEmzmXDrrgpR8HZ+uCFYPNwE2SNrAfBaeNZKj0p0JqxfA9S5KNszWTDIxNjuDzINEVTQcsoPz0lxQggpwbeloDET21rdx5sCk2F9ysGwx2Gha42Z7mc0iH1ySTKp/Z2cgb5cRNv+PLXmW9YwEjdjkBWaxg1hNe78WoO9AyoNZeK8YhemmmYDPlagZGg0JNkOrsdmofoPhfUvl61VUAha1QpW9Qe7hlFj4Sy4bhqIPrIKFf8jnU5f58zdqIF333UKgrINfnoPItGHJSRq6Z3Z6/2XJysvLDdo77CxiqauUJ5Uu1WLqDPGMvdZfxU8+krN+66gSt3kZUvgaAG+Gg0thUCQkBKXjVrDiNxICaKtaBWWaSOahrk/2ueltxPxjE/o36X8G4eDfUov0RW3ZFLseTNtaAocGFkIpiQyJwdmet4ibn0xWw5S1n0h9jTRikW8skw3X3D3E+zKLjU9W7lCkBQnKAYDhysnY2umrRsZ1ecW1YQeC5QJ7L+Ru5OfzHcPE2VvF+08D7zRqYzjqAP+7aZgtI='
+        if ($mojang_result != null) {
+            $result = json_decode($mojang_result);
+            $result->id = $uuid;
+            echo json_encode($result);
+        } else {
+            $result = [
+                'id' => $uuid,
+                'name' => $username,
+                'properties' => [
+                    [
+                        'name' => 'textures',
+                        'value' => 'ewogICJ0aW1lc3RhbXAiIDogMTYxMTY3ODI3OTc4NiwKICAicHJvZmlsZUlkIiA6ICI0NTY2ZTY5ZmM5MDc0OGVlOGQ3MWQ3YmE1YWEwMGQyMCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGlua29mZGVhdGgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRkMWUwOGIwYmI3ZTlmNTkwYWYyNzc1ODEyNWJiZWQxNzc4YWM2Y2VmNzI5YWVkZmNiOTYxM2U5OTExYWU3NSIKICAgIH0sCiAgICAiQ0FQRSIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjYzA4ODQwNzAwNDQ3MzIyZDk1M2EwMmI5NjVmMWQ2NWExM2E2MDNiZjY0YjE3YzgwM2MyMTQ0NmZlMTYzNSIKICAgIH0KICB9Cn0',
+                        'signature' => 'GEQvky+a56n4xkvK8xKXsMXayNGe9ZgzvGpWOdieGLn4w8WowZwNC8AhAF71mqsKnpazG4zyDhFAfPAq8CnLahwFKbDNds8BzmvYJ1uThWweaYq34ucgLAjwrVmoM4hi5GLFG5OY2Ne1uZvXdpEmzmXDrrgpR8HZ+uCFYPNwE2SNrAfBaeNZKj0p0JqxfA9S5KNszWTDIxNjuDzINEVTQcsoPz0lxQggpwbeloDET21rdx5sCk2F9ysGwx2Gha42Z7mc0iH1ySTKp/Z2cgb5cRNv+PLXmW9YwEjdjkBWaxg1hNe78WoO9AyoNZeK8YhemmmYDPlagZGg0JNkOrsdmofoPhfUvl61VUAha1QpW9Qe7hlFj4Sy4bhqIPrIKFf8jnU5f58zdqIF333UKgrINfnoPItGHJSRq6Z3Z6/2XJysvLDdo77CxiqauUJ5Uu1WLqDPGMvdZfxU8+krN+66gSt3kZUvgaAG+Gg0thUCQkBKXjVrDiNxICaKtaBWWaSOahrk/2ueltxPxjE/o36X8G4eDfUov0RW3ZFLseTNtaAocGFkIpiQyJwdmet4ibn0xWw5S1n0h9jTRikW8skw3X3D3E+zKLjU9W7lCkBQnKAYDhysnY2umrRsZ1ecW1YQeC5QJ7L+Ru5OfzHcPE2VvF+08D7zRqYzjqAP+7aZgtI='
+                    ]
                 ]
-            ]
-        ];
-
-        echo json_encode($result);
+            ];
+            echo json_encode($result);
+        }
     }
 }
 
