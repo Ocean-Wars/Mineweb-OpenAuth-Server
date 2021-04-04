@@ -1,7 +1,7 @@
 <?php
-if($request['method'] == "POST")
+if($request['method'] == "POST") {
     // If the content-type is JSON
-    if($request['content-type'] == "application/json") {
+    if($request['content-type'] == "application/json; charset=utf-8") {
         // Getting the input JSON
         $input = file_get_contents("php://input");
 
@@ -14,6 +14,11 @@ if($request['method'] == "POST")
         $selectedProfile = !empty($getContents['selectedProfile']) ? $getContents['selectedProfile'] : null;
         // The id of the server
         $serverId = !empty($getContents['serverId']) ? $getContents['serverId'] : null;
+
+
+        file_put_contents("C:\Users\Admin\Documents\minecraft\OceanWars\authenticationlogs\logs.txt",
+            "accessToken: $accessToken / selectedProfile: $selectedProfile / serverId: $serverId",
+            FILE_APPEND);
 
         if (!is_null($accessToken) && !is_null($selectedProfile) && !is_null($serverId)) {
             // Sending a request to the database to get the user from the access token
@@ -36,12 +41,17 @@ if($request['method'] == "POST")
                         'time' => getTimeFloat()
                     ]);
 
-                    /*
-                     * old
-                    header("HTTP/1.1 204 NO CONTENT");
-                    // header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-                    // remove the above lign otherwise minecraft does not recognise the result*/
 
+                    file_put_contents("C:\Users\Admin\Documents\minecraft\OceanWars\authenticationlogs\logs.txt",
+                        "We want to send the no content there boy",
+                        FILE_APPEND);
+
+                    // old version
+                    header("HTTP/1.1 204 NO CONTENT");
+
+
+                    /*
+                     * not working version
                     // copied and pasted 204 from: https://gist.github.com/msdousti/b98f225512bd21ba23caebc5548f4678
                     ob_start();
 
@@ -51,7 +61,7 @@ if($request['method'] == "POST")
                     header("Pragma: no-cache"); // HTTP 1.0.
                     header("Expires: 0"); // Proxies.
 
-                    ob_end_flush(); //now the headers are sent
+                    ob_end_flush(); //now the headers are sent*/
 
                 } else {
                     header('Content-Type: application/json');
@@ -74,6 +84,7 @@ if($request['method'] == "POST")
         // Printing the sixth error
         echo error(6);
     }
+}
 // Else if the request method isn't POST
 else {
     header('Content-Type: application/json');

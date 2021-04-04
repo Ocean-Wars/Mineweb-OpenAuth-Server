@@ -43,74 +43,69 @@ $request['content-type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_T
 
 
 // If the config file already exists
-if(file_exists('config.php'))
+if(file_exists('config.php')) {
     // If the install page doesn't exist
-    if(!file_exists('install.php'))
+    if (!file_exists('install.php')) {
+
+        // TO REMOVE!!!
+        // error_log("LINK: " . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+        // file_put_contents("C:\Users\Admin\Documents\minecraft\OceanWars\authenticationlogs\logs.txt",
+        //    "LINK: " . "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]\n",
+        //    FILE_APPEND);
+
         // If we are in the home page (no arguments given)
-        if(empty($request['args'][0])) {
+        if (empty($request['args'][0])) {
             // Creating an array with the app informations
             $infos = array(
-                'Status'					=>	'OK',
-                'Runtime-Mode'				=>	'productionMode',
-                'Application-Author' 		=>	'Litarvan & Vavaballz',
-                'Application-Description'	=>	'OpenAuth Server.',
-                'Specification-Version'		=>	'1.0.0-SNAPSHOT',
-                'Application-Name'			=>	'openauth.server',
-                'Implementation-Version' 	=>	'1.0.0_build01',
-                'Application-Owner' 		=>	Core\Config::get('authinfos.owner')
+                'Status' => 'OK',
+                'Runtime-Mode' => 'productionMode',
+                'Application-Author' => 'Litarvan & Vavaballz',
+                'Application-Description' => 'OpenAuth Server.',
+                'Specification-Version' => '1.0.0-SNAPSHOT',
+                'Application-Name' => 'openauth.server',
+                'Implementation-Version' => '1.0.0_build01',
+                'Application-Owner' => Core\Config::get('authinfos.owner')
             );
 
             // And printing it as a JSON
             echo json_encode($infos);
-        }
-
-        // If the url is authenticate and there is no more arguments
-        elseif($request['args'][0] == "authenticate" && empty($request['args'][1])) {
+        } // If the url is authenticate and there is no more arguments
+        elseif ($request['args'][0] == "authenticate" && empty($request['args'][1])) {
             // Setting the content-type to JSON
             header('Content-Type: application/json');
 
             // Printing the authenticate page
             require 'app/authenticate.php';
-        }
-
-        // If the url is refresh and there is no more arguments
-        elseif($request['args'][0] == "refresh" && empty($request['args'][1])) {
+        } // If the url is refresh and there is no more arguments
+        elseif ($request['args'][0] == "refresh" && empty($request['args'][1])) {
             // Setting the content-type to JSON
             header('Content-Type: application/json');
 
             // Printing the refresh page
             require 'app/refresh.php';
-        }
-
-        // If the url is signout and there is no more arguments
-        elseif($request['args'][0] == "signout" && empty($request['args'][1])) {
+        } // If the url is signout and there is no more arguments
+        elseif ($request['args'][0] == "signout" && empty($request['args'][1])) {
             // Setting the content-type to JSON
             header('Content-Type: application/json');
 
             // Printing the logout page
             require 'app/logout.php';
-        }
-
-        // If the url is validate and there is no more arguments
-        elseif($request['args'][0] == "validate" && empty($request['args'][1])) {
+        } // If the url is validate and there is no more arguments
+        elseif ($request['args'][0] == "validate" && empty($request['args'][1])) {
             // Setting the content-type to JSON
             header('Content-Type: application/json');
 
             // Printing the logout page
             require 'app/validate.php';
-        }
-
-        // If the url is invalidate and there is no more arguments
-        elseif($request['args'][0] == "invalidate" && empty($request['args'][1])) {
+        } // If the url is invalidate and there is no more arguments
+        elseif ($request['args'][0] == "invalidate" && empty($request['args'][1])) {
             // Setting the content-type to JSON
             header('Content-Type: application/json');
 
             // Printing the logout page
             require 'app/invalidate.php';
-        }
-
-        // If the url is register and there is no more arguments
-        elseif($request['args'][0] == "register" && empty($request['args'][1])) {
+        } // If the url is register and there is no more arguments
+        elseif ($request['args'][0] == "register" && empty($request['args'][1])) {
             // If the register page is activated in the config
             if (Core\Config::get('activeRegisterPage'))
                 // Printing the register page
@@ -124,19 +119,14 @@ if(file_exists('config.php'))
                 // Printing the first error
                 echo error(1);
             }
-        }
-
-        // The join protocol according to: https://wiki.vg/Protocol_Encryption#Authentication
+        } // The join protocol according to: https://wiki.vg/Protocol_Encryption#Authentication
         elseif ($request['args'][0] == "join" && empty($request['args'][1])) {
             require 'app/join.php';
-        }
-
-        elseif ($request['args'][0] == "hasJoined" && empty($request['args'][1])) {
+        } elseif ($request['args'][0] == "hasJoined" && empty($request['args'][1])) {
             header('Content-Type: application/json');
 
             require 'app/hasJoined.php';
-        }
-        // Else if the request is just unknown
+        } // Else if the request is just unknown
         else {
             // Setting the header to 404 error
             header("HTTP/1.0 404 Not Found");
@@ -144,8 +134,7 @@ if(file_exists('config.php'))
             // Printing the first error
             echo error(1);
         }
-
-    // Else if the install page exists
+    } // Else if the install page exists
     else {
         // Deleting it
         unlink("install.php");
@@ -153,8 +142,7 @@ if(file_exists('config.php'))
         // And redirecting to the index
         header("Location: .");
     }
-
 // Else if the config doesn't exists
-else
+} else
     // Printing the install page
     require 'install.php';
