@@ -1,7 +1,7 @@
 <?php
 if($request['method'] == "POST") {
     // If the content-type is JSON
-    if($request['content-type'] == "application/json; charset=utf-8") {
+    if(strpos($request['content-type'], "application/json") !== false) {//   $request['content-type'] == "application/json; charset=utf-8") {
         // Getting the input JSON
         $input = file_get_contents("php://input");
 
