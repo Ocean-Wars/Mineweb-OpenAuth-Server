@@ -13,7 +13,8 @@ if($request['method'] == "POST") {
         // The UUID of the user without dashes
         $selectedProfile = !empty($getContents['selectedProfile']) ? $getContents['selectedProfile'] : null;
         // The id of the server
-        $serverId = !empty($getContents['serverId']) ? $getContents['serverId'] : null;
+        // $serverId = !empty($getContents['serverId']) ? $getContents['serverId'] : null;
+	$serverId = 1;
 
         if (!is_null($accessToken) && !is_null($selectedProfile) && !is_null($serverId)) {
             // Sending a request to the database to get the user from the access token

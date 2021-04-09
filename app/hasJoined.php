@@ -58,7 +58,8 @@ if($request['method'] == "GET") {
         $username = !empty($request['query']["username"]) ? $request['query']["username"] : null;
 
         // The id of the server
-        $serverId = !empty($request['query']['serverId']) ? $request['query']['serverId'] : null;
+        // $serverId = !empty($request['query']['serverId']) ? $request['query']['serverId'] : null;
+	$serverId = 1;
 
         // ip of the user, to prevent proxy, it is optional
         $ip = !empty($request['query']['ip']) ? $request['query']['ip'] : null;
